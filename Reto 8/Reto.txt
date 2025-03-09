@@ -1,0 +1,1 @@
+El desafío del bajo acoplamiento consiste en reestructurar el código para reducir las dependencias entre diferentes módulos o componentes. Esto implica reorganizar el código de manera que cada parte del sistema sea lo más independiente posible, facilitando así el mantenimiento, la escalabilidad y la reutilización del código.
