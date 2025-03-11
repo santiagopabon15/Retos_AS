@@ -15,17 +15,13 @@ class Book
         CopiesAvailable = copies;
     }
 
-    public bool Loan()
+    public void DecreaseCopies()
     {
         if (CopiesAvailable > 0)
-        {
             CopiesAvailable--;
-            return true;
-        }
-        return false;
     }
 
-    public void Return()
+    public void IncreaseCopies()
     {
         CopiesAvailable++;
     }
@@ -42,6 +38,33 @@ class User
         Name = name;
         Id = id;
         Email = email;
+    }
+}
+
+class Loan
+{
+    public User User { get; }
+    public Book Book { get; }
+
+    public Loan(User user, Book book)
+    {
+        User = user;
+        Book = book;
+    }
+
+    public bool LoanBook()
+    {
+        if (Book.CopiesAvailable > 0)
+        {
+            Book.DecreaseCopies();
+            return true;
+        }
+        return false;
+    }
+
+    public void ReturnBook()
+    {
+        Book.IncreaseCopies();
     }
 }
 
@@ -77,27 +100,5 @@ class UserManager
 
 class LoanManager
 {
-    private List<(User, Book)> loans = new List<(User, Book)>();
-
-    public bool LoanBook(User user, Book book)
-    {
-        if (book != null && book.Loan())
-        {
-            loans.Add((user, book));
-            return true;
-        }
-        return false;
-    }
-
-    public bool ReturnBook(User user, Book book)
-    {
-        var loan = loans.FirstOrDefault(l => l.Item1 == user && l.Item2 == book);
-        if (loan != default)
-        {
-            book.Return();
-            loans.Remove(loan);
-            return true;
-        }
-        return false;
-    }
+    private List<Loan> loans = new List<Loan>();
 }
